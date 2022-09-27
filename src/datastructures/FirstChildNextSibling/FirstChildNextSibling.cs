@@ -1,3 +1,5 @@
+using System;
+
 namespace AD
 {
     public partial class FirstChildNextSibling<T> : IFirstChildNextSibling<T>
@@ -11,33 +13,30 @@ namespace AD
 
         public int Size()
         {
-            if (root == null)
-            {
-                return 0;
-            }
-            
-            int size = 0;
-            var node = root;
-            
-            while (node != null)
-            {
-                size++;
+            var result = Traverse(root);
 
-                if (IsEmpty(node.firstChild))
-                {
-                    size++;
-                    node = node.nextSibling;
-                } else {
-                    node = node.firstChild;
-                }
-            }
-
-            return size;
+            return result;
         }
 
-        private bool IsEmpty(FirstChildNextSiblingNode<T> node)
+        private int Traverse(FirstChildNextSiblingNode<T> node, int count = 0)
         {
-            return node?.firstChild == null && node?.nextSibling == null;
+            if (node == null) return count;
+
+            while (node != null)
+            {
+                var newCount = count + 1;
+                
+                if (node.firstChild != null)
+                {
+                    newCount = Traverse(node.firstChild, count + 1);
+                }
+
+                count = newCount;
+                
+                node = node.nextSibling;
+            }
+
+            return count;
         }
 
         public void PrintPreOrder()

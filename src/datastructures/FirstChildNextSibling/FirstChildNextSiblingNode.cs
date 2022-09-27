@@ -6,11 +6,14 @@ namespace AD
         public FirstChildNextSiblingNode<T> nextSibling;
         public T data;
 
-        public FirstChildNextSiblingNode(T _data, FirstChildNextSiblingNode<T> _firstChild, FirstChildNextSiblingNode<T> _nextSibling)
+        public FirstChildNextSiblingNode(T _data, FirstChildNextSiblingNode<T> _firstChild, FirstChildNextSiblingNode<T> _nextSibling): this(_data, _firstChild)
         {
-            data = _data;
-            firstChild = _firstChild;
             nextSibling = _nextSibling;
+        }
+
+        public FirstChildNextSiblingNode(T _data, FirstChildNextSiblingNode<T> _firstChild): this(_data)
+        {
+            firstChild = _firstChild;
         }
 
         public FirstChildNextSiblingNode(T _data)

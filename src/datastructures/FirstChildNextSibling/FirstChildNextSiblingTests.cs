@@ -30,6 +30,7 @@ namespace AD
 
             Assert.AreEqual(expected, actual);
         }
+        
         [Test]
         public void FirstChildNextSibling_2_SmallTree_1_SizeReturnsProperResult()
         {
@@ -42,6 +43,20 @@ namespace AD
 
             Assert.AreEqual(expected, actual);
         }
+        
+        [Test]
+        public void FirstChildNextSibling_2_SmallTree_1_SizeReturnsProperResultV2()
+        {
+            // Arrange
+            IFirstChildNextSibling<string> tree = DSBuilder.CreateFirstChildNextSibling_SmallV2();
+            int expected = 12;
+
+            // Act
+            int actual = tree.Size();
+
+            Assert.AreEqual(expected, actual);
+        }
+        
         [Test]
         public void FirstChildNextSibling_2_SmallTree_2_ToStringReturnsProperResult()
         {
