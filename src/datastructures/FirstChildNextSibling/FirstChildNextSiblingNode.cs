@@ -6,29 +6,31 @@ namespace AD
         public FirstChildNextSiblingNode<T> nextSibling;
         public T data;
 
-        public FirstChildNextSiblingNode(T data, FirstChildNextSiblingNode<T> firstChild, FirstChildNextSiblingNode<T> nextSibling)
+        public FirstChildNextSiblingNode(T _data, FirstChildNextSiblingNode<T> _firstChild, FirstChildNextSiblingNode<T> _nextSibling)
         {
-            throw new System.NotImplementedException();
+            data = _data;
+            firstChild = _firstChild;
+            nextSibling = _nextSibling;
         }
 
-        public FirstChildNextSiblingNode(T data)
+        public FirstChildNextSiblingNode(T _data)
         {
-            throw new System.NotImplementedException();
+            data = _data;
         }
 
         public T GetData()
         {
-            throw new System.NotImplementedException();
+            return data;
         }
 
         public FirstChildNextSiblingNode<T> GetFirstChild()
         {
-            throw new System.NotImplementedException();
+            return firstChild;
         }
 
         public FirstChildNextSiblingNode<T> GetNextSibling()
         {
-            throw new System.NotImplementedException();
+            return nextSibling;
         }
     }
 }
