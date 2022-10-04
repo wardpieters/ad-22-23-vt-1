@@ -23,7 +23,12 @@ namespace AD
         //
         public static IBinaryTree<int> CreateBinaryTreeInt()
         {
-            throw new System.NotImplementedException();
+            BinaryTree<int> tree = new BinaryTree<int>();
+            var rootData = new BinaryNode<int> { data = 5, left = new BinaryNode<int> {data = 2, left = new BinaryNode<int> {data = 8}, right = new BinaryNode<int> {data = 7, left = new BinaryNode<int> {data = 1}}}, right = new BinaryNode<int> {data = 6}};
+
+            tree.root = rootData;
+
+            return tree;
         }
 
         //
@@ -45,6 +50,8 @@ namespace AD
             tw.Merge("w", tq, tg);
             ta.Merge("a", to, tp);
             tt.Merge("t", tw, ta);
+
+            var a = tt;
 
             return tt;
         }

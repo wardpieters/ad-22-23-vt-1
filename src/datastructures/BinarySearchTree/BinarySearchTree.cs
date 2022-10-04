@@ -1,9 +1,7 @@
 namespace AD
 {
-    public partial class BinarySearchTree<T> : BinaryTree<T>, IBinarySearchTree<T>
-        where T : System.IComparable<T>
+    public partial class BinarySearchTree<T> : BinaryTree<T>, IBinarySearchTree<T> where T : System.IComparable<T>
     {
-
         //----------------------------------------------------------------------
         // Interface methods that have to be implemented for exam
         //----------------------------------------------------------------------
@@ -14,7 +12,6 @@ namespace AD
         }
 
         public T FindMin()
-
         {
             throw new System.NotImplementedException();
         }

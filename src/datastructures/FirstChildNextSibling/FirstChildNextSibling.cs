@@ -50,8 +50,24 @@ namespace AD
             {
                 return "NIL";
             }
-            
-            return $"{root.data},FC({root.firstChild.data}),NS({root.nextSibling.data})";
+
+            return ToString(root);
         }
+        
+        private string ToString(FirstChildNextSiblingNode<T> node)
+        {
+            if (node == null) return "";
+
+            string output = $"{node.data}";
+            if (node.firstChild != null)
+            {
+                output += $",FC({ToString(node.firstChild)})";
+            }
+            if (node.nextSibling != null)
+            {
+                output += $",NS({ToString(node.nextSibling)})";
+            }
+
+            return output; }
     }
 }
