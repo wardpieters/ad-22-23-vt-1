@@ -75,27 +75,9 @@ namespace AD
 
         public void Merge(T rootItem, BinaryTree<T> t1, BinaryTree<T> t2)
         {
-            var merged = MergeBinaryNodes(t1.GetRoot(), t2.GetRoot());
-            root = new BinaryNode<T>( rootItem, merged.left, merged.right );
+            root = new BinaryNode<T>( rootItem, t1.root, t2.root );
         }
         
-        private BinaryNode<T> MergeBinaryNodes(BinaryNode<T> t1, BinaryNode<T> t2)
-        {
-            if (t1 == null)
-            {
-                return t2;
-            }
-            
-            if (t2 == null)
-            {
-                return t1;
-            }
-            
-            t1.left = MergeBinaryNodes(t1.left, t2.left);
-            t1.right = MergeBinaryNodes(t1.right, t2.right);
-            return t1;
-        }
-
         public string ToPrefixString()
         {
             if (root == null)
