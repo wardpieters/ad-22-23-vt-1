@@ -8,7 +8,41 @@ namespace AD
 
         public void Insert(T x)
         {
-            throw new System.NotImplementedException();
+            if (root == null)
+            {
+                root = new BinaryNode<T> { data = x };
+            } else Insert(x, root);
+        }
+
+        private void Insert(T x, BinaryNode<T> node)
+        {
+            if (x.Equals(node.data))
+            {
+                throw new BinarySearchTreeDoubleKeyException();
+            }
+
+            if (x.CompareTo(node.data) > 0)
+            {
+                if (node.right == null)
+                {
+                    node.right = new BinaryNode<T> {data = x};
+                }
+                else
+                {
+                    Insert(x, node.right);
+                }
+            }
+            else
+            {
+                if (node.left == null)
+                {
+                    node.left = new BinaryNode<T> {data = x};
+                }
+                else
+                {
+                    Insert(x, node.left);
+                }
+            }
         }
 
         public T FindMin()
