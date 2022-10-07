@@ -130,17 +130,67 @@ namespace AD
 
         public int NumberOfLeaves()
         {
-            throw new System.NotImplementedException();
+            return NumberOfLeaves(root);
+        }
+        
+        private int NumberOfLeaves(BinaryNode<T> node)
+        {
+            if (node == null)
+            {
+                return 0;
+            }
+
+            if (node.left == null && node.right == null)
+            {
+                return 1;
+            }
+
+            return NumberOfLeaves(node.left) + NumberOfLeaves(node.right);
         }
 
         public int NumberOfNodesWithOneChild()
         {
-            throw new System.NotImplementedException();
+            return NumberOfNodesWithOneChild(root);
+        }
+        
+        private int NumberOfNodesWithOneChild(BinaryNode<T> node)
+        {
+            if (node == null)
+            {
+                return 0;
+            }
+
+            if (node.left == null && node.right != null)
+            {
+                return 1 + NumberOfNodesWithOneChild(node.right);
+            }
+
+            if (node.left != null && node.right == null)
+            {
+                return 1 + NumberOfNodesWithOneChild(node.left);
+            }
+
+            return NumberOfNodesWithOneChild(node.left) + NumberOfNodesWithOneChild(node.right);
         }
 
         public int NumberOfNodesWithTwoChildren()
         {
-            throw new System.NotImplementedException();
+            return NumberOfNodesWithTwoChildren(root);
+        }
+        
+        private int NumberOfNodesWithTwoChildren(BinaryNode<T> node)
+        {
+            if (node == null)
+            {
+                return 0;
+            }
+
+            if (node.left != null && node.right != null)
+            {
+                return 1 + NumberOfNodesWithTwoChildren(node.left) + NumberOfNodesWithTwoChildren(node.right);
+            }
+
+            return NumberOfNodesWithTwoChildren(node.left) + NumberOfNodesWithTwoChildren(node.right);
         }
     }
 }
