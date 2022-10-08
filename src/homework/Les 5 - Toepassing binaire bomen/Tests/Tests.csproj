@@ -1,14 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
     <RootNamespace>AD</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\..\datastructures\BinarySearchTree\BinarySearchTreeBuilder.cs" Link="BinarySearchTreeBuilder.cs" />
     <Compile Include="..\..\..\datastructures\BinarySearchTree\BinarySearchTreeTests.cs" Link="BinarySearchTreeTests.cs" />
+    <Compile Include="..\..\..\datastructures\PriorityQueue\PriorityQueueBuilder.cs" Link="PriorityQueueBuilder.cs" />
     <Compile Include="..\..\..\datastructures\PriorityQueue\PriorityQueueTests.cs" Link="PriorityQueueTests.cs" />
   </ItemGroup>
   

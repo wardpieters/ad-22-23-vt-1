@@ -70,7 +70,7 @@ namespace AD
 
         public bool IsEmpty()
         {
-            return Size() == 0;
+            return root == null;
         }
 
         public void Merge(T rootItem, BinaryTree<T> t1, BinaryTree<T> t2)
@@ -80,32 +80,47 @@ namespace AD
         
         public string ToPrefixString()
         {
-            if (root == null)
+            return ToPrefixString(root);
+        }
+        
+        private string ToPrefixString(BinaryNode<T> node)
+        {
+            if (node == null)
             {
                 return "NIL";
             }
-            
-            throw new System.NotImplementedException();
+
+            return $"[ {node.data.ToString()} {ToPrefixString(node.left)} {ToPrefixString(node.right)} ]";
         }
 
         public string ToInfixString()
         {
-            if (root == null)
+            return ToInfixString(root);
+        }
+
+        public string ToInfixString(BinaryNode<T> node)
+        {
+            if (node == null)
             {
                 return "NIL";
             }
             
-            throw new System.NotImplementedException();
+            return $"[ {ToInfixString(node.left)} {node.data.ToString()} {ToInfixString(node.right)} ]";
         }
 
         public string ToPostfixString()
         {
-            if (root == null)
+            return ToPostfixString(root);
+        }
+
+        private string ToPostfixString(BinaryNode<T> node)
+        {
+            if (node == null)
             {
                 return "NIL";
             }
             
-            throw new System.NotImplementedException();
+            return $"[ {ToPostfixString(node.left)} {ToPostfixString(node.right)} {node.data.ToString()} ]";
         }
 
 
@@ -115,17 +130,67 @@ namespace AD
 
         public int NumberOfLeaves()
         {
-            throw new System.NotImplementedException();
+            return NumberOfLeaves(root);
+        }
+        
+        private int NumberOfLeaves(BinaryNode<T> node)
+        {
+            if (node == null)
+            {
+                return 0;
+            }
+
+            if (node.left == null && node.right == null)
+            {
+                return 1;
+            }
+
+            return NumberOfLeaves(node.left) + NumberOfLeaves(node.right);
         }
 
         public int NumberOfNodesWithOneChild()
         {
-            throw new System.NotImplementedException();
+            return NumberOfNodesWithOneChild(root);
+        }
+        
+        private int NumberOfNodesWithOneChild(BinaryNode<T> node)
+        {
+            if (node == null)
+            {
+                return 0;
+            }
+
+            if (node.left == null && node.right != null)
+            {
+                return 1 + NumberOfNodesWithOneChild(node.right);
+            }
+
+            if (node.left != null && node.right == null)
+            {
+                return 1 + NumberOfNodesWithOneChild(node.left);
+            }
+
+            return NumberOfNodesWithOneChild(node.left) + NumberOfNodesWithOneChild(node.right);
         }
 
         public int NumberOfNodesWithTwoChildren()
         {
-            throw new System.NotImplementedException();
+            return NumberOfNodesWithTwoChildren(root);
+        }
+        
+        private int NumberOfNodesWithTwoChildren(BinaryNode<T> node)
+        {
+            if (node == null)
+            {
+                return 0;
+            }
+
+            if (node.left != null && node.right != null)
+            {
+                return 1 + NumberOfNodesWithTwoChildren(node.left) + NumberOfNodesWithTwoChildren(node.right);
+            }
+
+            return NumberOfNodesWithTwoChildren(node.left) + NumberOfNodesWithTwoChildren(node.right);
         }
     }
 }
