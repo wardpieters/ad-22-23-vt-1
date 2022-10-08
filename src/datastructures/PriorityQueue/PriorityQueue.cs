@@ -32,81 +32,69 @@ namespace AD
 
         public void Add(T x)
         {
-            if (size == array.Length)
-            {
-                T[] newArray = new T[array.Length * 2];
-                Array.Copy(array, 0, newArray, 0, array.Length);
-                array = newArray;
-            }
-            array[size] = x;
-            size++;
-            BubbleUp();
+            if (size == array.Length - 1)
+                EnlargeArray(array.Length * 2 + 1);
+
+            PercolateUp(x);
+        }
+
+        private void PercolateUp(T x)
+        {
+            // percolate up
+            int hole = ++size;
+            for (; hole > 1 && x.CompareTo(array[hole / 2]) < 0; hole /= 2)
+                array[hole] = array[hole / 2];
+            array[hole] = x;
         }
         
-        private void BubbleUp()
-        {
-            int index = size - 1;
-            while (index > 0)
-            {
-                int parent = (index - 1) / 2;
-                if (array[index].CompareTo(array[parent]) < 0)
-                {
-                    T temp = array[index];
-                    array[index] = array[parent];
-                    array[parent] = temp;
-                }
-                else
-                {
-                    break;
-                }
-                index = parent;
+        private void EnlargeArray(int newSize) {
+            var old = array;
+            array = new T[newSize];
+            for (int i = 0; i < old.Length; i++) {
+                array[i] = old[i];
             }
         }
 
+        
         // Removes the smallest item in the priority queue
         public T Remove()
         {
-            if (size == 0)
-            {
-                throw new Exception("Priority queue is empty");
-            }
-            T result = array[0];
-            array[0] = array[size - 1];
-            size--;
-            BubbleDown();
-            return result;
+            T minItem = FindMin();
+            array[1] = array[size--];
+            PercolateDown(1);
+            return minItem;
         }
-
-        private void BubbleDown()
+        
+        private void PercolateDown(int hole)
         {
-            int index = 0;
-            while (index < size)
-            {
-                int left = 2 * index + 1;
-                int right = 2 * index + 2;
-                if (left >= size)
-                {
-                    break;
-                }
-                int min = left;
-                if (right < size && array[right].CompareTo(array[left]) < 0)
-                {
-                    min = right;
-                }
-                if (array[index].CompareTo(array[min]) > 0)
-                {
-                    T temp = array[index];
-                    array[index] = array[min];
-                    array[min] = temp;
-                }
-                else
-                {
-                    break;
-                }
-                index = min;
-            }
-        }
+            int child;
+            T tmp = array[hole];
 
+            for (; hole * 2 <= size; hole = child)
+            {
+                child = hole * 2;
+                if (child != size && array[child + 1].CompareTo(array[child]) < 0)
+                    child++;
+                if (array[child].CompareTo(tmp) < 0)
+                    array[hole] = array[child];
+                else
+                    break;
+            }
+            array[hole] = tmp;
+        }
+        
+        private T FindMin()
+        {
+            if (IsEmpty())
+                throw new Exception("Priority queue is empty");
+            
+            return array[1];
+        }
+        
+        private bool IsEmpty()
+        {
+            return size == 0;
+        }
 
         //----------------------------------------------------------------------
         // Interface methods that have to be implemented for homework
@@ -114,24 +102,31 @@ namespace AD
 
         public void AddFreely(T x)
         {
-            
+            Array.Resize(ref array, ++size+1);
+            array[size] = x;
+
         }
 
         public void BuildHeap()
         {
-            
+            for (int i = size / 2; i > 0; i--) {
+                PercolateDown(i);
+            }
         }
 
         public override string ToString()
         {
-            string output = "";
+            if (size == 0) return ""; 
             
-            for (int i = 0; i < size; i++)
-            {
-                output += array[i] + (i == size - 1 ? "" : " ");
-            }
+            string output = "";
 
-            return output;
+            for (int i = 1; i <= size; i++)
+            {
+                output += $"{array[i]} ";
+            }
+            
+            return output[..^1];
+
         }
     }
 }

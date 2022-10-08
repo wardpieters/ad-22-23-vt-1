@@ -82,24 +82,29 @@ namespace AD
             }
         }
         
-        private void RemoveMin(BinaryNode<T> node)
+        private BinaryNode<T> RemoveMin(BinaryNode<T> node)
         {
-            if (node.left.left == null)
+            if (node.left == null && node.right == null)
             {
-                node.left = node.left.right;
+                return null;
             }
-            else
+
+            if (node.left == null)
             {
-                RemoveMin(node.left);
+                return node.right;
             }
+
+            node.left = RemoveMin(node.left);
+
+            return node;
         }
 
         public void Remove(T x)
         {
-             Remove(x, root);
+             root = Remove(x, root);
         }
 
-        private void Remove(T x, BinaryNode<T> node)
+        private BinaryNode<T> Remove(T x, BinaryNode<T> node)
         {
             if (node == null)
             {
@@ -108,29 +113,40 @@ namespace AD
 
             if (x.Equals(node.data))
             {
-                if (node.right == null)
-                {
-                    node.right = node.left.right;
-                    node.data = node.left.data;
-                    node.left = node.left.left;
-                }
-                
-                T min = FindMin(node.right);
-                RemoveMin(node);
+                return RemoveThisNode(node);
+            }
 
-                node.data = min;
-            }
-            else
+            if (x.CompareTo(node.data) > 0)
             {
-                if (x.CompareTo(node.data) > 0)
-                {
-                    Remove(x, node.right);
-                }
-                else if (x.CompareTo(node.data) < 0)
-                {
-                    Remove(x, node.left);
-                }
+                node.right = Remove(x, node.right);
             }
+
+            if (x.CompareTo(node.data) < 0)
+            {
+                node.left = Remove(x, node.left);
+            }
+
+            return node;
+        }
+        
+        private BinaryNode<T> RemoveThisNode(BinaryNode<T> node)
+        {
+            if (node.left == null && node.right == null)
+            {
+                return null;
+            }
+
+            if (node.left == null)
+            {
+                return node.right;
+            }
+
+            if (node.right == null)
+            {
+                return node.left;
+            }
+
+            return new BinaryNode<T>(FindMin(node.right), node.left, RemoveMin(node.right));
         }
 
         public string InOrder()
