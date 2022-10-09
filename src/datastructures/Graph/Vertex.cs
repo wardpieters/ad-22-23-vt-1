@@ -13,7 +13,6 @@ namespace AD
         public Vertex prev;
         public bool known;
 
-
         //----------------------------------------------------------------------
         // Constructor
         //----------------------------------------------------------------------
@@ -24,7 +23,10 @@ namespace AD
         /// <param name="name">The name of the new vertex</param>
         public Vertex(string name)
         {
-            throw new System.NotImplementedException();
+            this.name = name;
+            adj = new LinkedList<Edge>();
+            
+            Reset();
         }
 
 
@@ -34,33 +36,35 @@ namespace AD
 
         public string GetName()
         {
-            throw new System.NotImplementedException();
+            return name;
         }
+        
         public LinkedList<Edge> GetAdjacents()
         {
-            throw new System.NotImplementedException();
+            return adj;
         }
 
         public double GetDistance()
         {
-            throw new System.NotImplementedException();
+            return distance;
         }
 
         public Vertex GetPrevious()
         {
-            throw new System.NotImplementedException();
+            return prev;
         }
 
         public bool GetKnown()
         {
-            throw new System.NotImplementedException();
+            return known;
         }
 
         public void Reset()
         {
-            throw new System.NotImplementedException();
+            distance = double.MaxValue;
+            prev = null;
+            known = false;
         }
-
 
         //----------------------------------------------------------------------
         // ToString that has to be implemented for exam
@@ -75,7 +79,20 @@ namespace AD
         /// <returns>The string representation of this Graph instance</returns> 
         public override string ToString()
         {
-            throw new System.NotImplementedException();
+            string s = name;
+            if (!distance.Equals(double.MaxValue))
+            {
+                s += " (" + distance + ")";
+            }
+            
+            s += " [";
+            foreach (Edge e in adj.OrderBy(e => e.dest.name))
+            {
+                s += $" {e.dest.name} ({e.cost})";
+            }
+            s += " ]";
+            
+            return s;
         }
     }
 }

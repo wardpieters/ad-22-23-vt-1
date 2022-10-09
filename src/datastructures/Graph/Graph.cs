@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 
@@ -17,7 +18,7 @@ namespace AD
 
         public Graph()
         {
-            throw new System.NotImplementedException();
+            vertexMap = new Dictionary<string, Vertex>();
         }
 
 
@@ -32,7 +33,10 @@ namespace AD
         /// <param name="name">The name of the new vertex</param>
         public void AddVertex(string name)
         {
-            throw new System.NotImplementedException();
+            if (!vertexMap.ContainsKey(name))
+            {
+                vertexMap.Add(name, new Vertex(name));
+            }
         }
 
 
@@ -44,7 +48,13 @@ namespace AD
         /// <returns>The vertex withe the given name</returns>
         public Vertex GetVertex(string name)
         {
-            throw new System.NotImplementedException();
+            // Add new vertex if it does not exists.
+            if (!vertexMap.ContainsKey(name))
+            {
+                vertexMap.Add(name, new Vertex(name));
+            }
+
+            return vertexMap[name];
         }
 
 
@@ -58,7 +68,9 @@ namespace AD
         /// <param name="cost">cost of the edge</param>
         public void AddEdge(string source, string dest, double cost = 1)
         {
-            throw new System.NotImplementedException();
+            Vertex v = GetVertex(source);
+            Vertex w = GetVertex(dest);
+            v.adj.AddFirst(new Edge(w, cost));
         }
 
 
@@ -77,7 +89,31 @@ namespace AD
         /// <param name="name">The name of the starting vertex</param>
         public void Unweighted(string name)
         {
-            throw new System.NotImplementedException();
+            // Breatch algorithm for unweighted graphs in c#
+            // http://www.csharpstar.com/csharp-breatch-algorithm-for-unweighted-graphs/
+
+            Queue<Vertex> q = new Queue<Vertex>();
+            Vertex start = GetVertex(name);
+
+            start.distance = 0;
+            start.prev = null;
+            q.Enqueue(start);
+
+            while (q.Count > 0)
+            {
+                Vertex v = q.Dequeue();
+
+                foreach (Edge e in v.adj)
+                {
+                    Vertex w = e.dest;
+                    if (w.distance.Equals(INFINITY))
+                    {
+                        w.distance = v.distance + 1;
+                        w.prev = v;
+                        q.Enqueue(w);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -86,7 +122,7 @@ namespace AD
         /// <param name="name">The name of the starting vertex</param>
         public void Dijkstra(string name)
         {
-            throw new System.NotImplementedException();
+            // Idk
         }
 
         //----------------------------------------------------------------------
@@ -101,15 +137,20 @@ namespace AD
         /// <returns>The string representation of this Graph instance</returns>
         public override string ToString()
         {
-            throw new System.NotImplementedException();
+            string output = "";
+            
+            foreach (var vertex in vertexMap.OrderBy(v => v.Key))
+            {
+                output += $"{vertex.Value}\n";
+            }
+
+            return output;
         }
 
 
         //----------------------------------------------------------------------
         // Interface methods : methods that have to be implemented for homework
         //----------------------------------------------------------------------
-
-
 
         public bool IsConnected()
         {
