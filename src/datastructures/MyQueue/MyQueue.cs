@@ -15,26 +15,25 @@ namespace AD
 
         public void Enqueue(T data)
         {
-            last = new MyLinkedListNode<T>
-            {
-                data = data,
-                prev = last,
-            };
+            MyLinkedListNode<T> newNode = new MyLinkedListNode<T> {data = data};
             
-            if (first == null)
+            if (IsEmpty())
             {
-                first = new MyLinkedListNode<T>
-                {
-                    data = data,
-                };
+                first = newNode;
+                last = newNode;
             }
-
+            else
+            {
+                last.next = newNode;
+                last = newNode;
+            }
+            
             size++;
         }
 
         public T GetFront()
         {
-            if (first == null)
+            if (IsEmpty())
             {
                 throw new MyQueueEmptyException();
             }
@@ -44,16 +43,13 @@ namespace AD
 
         public T Dequeue()
         {
-            if (last == null)
-            {
-                throw new MyQueueEmptyException();
-            }
+            var data = GetFront();
 
-            last = last.prev;
+            first = first.next;
 
             size--;
 
-            return last.data;
+            return data;
         }
 
         public void Clear()
