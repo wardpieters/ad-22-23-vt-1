@@ -85,8 +85,7 @@ namespace AD
         
         private T FindMin()
         {
-            if (IsEmpty())
-                throw new Exception("Priority queue is empty");
+            if (IsEmpty()) throw new PriorityQueueEmptyException();
             
             return array[1];
         }
