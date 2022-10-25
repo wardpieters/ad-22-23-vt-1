@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -80,7 +81,9 @@ namespace AD
         /// </summary>
         public void ClearAll()
         {
-            throw new System.NotImplementedException();
+            foreach (var (_, vertex) in vertexMap) {
+                vertex.Reset();
+            }
         }
 
         /// <summary>
@@ -122,7 +125,45 @@ namespace AD
         /// <param name="name">The name of the starting vertex</param>
         public void Dijkstra(string name)
         {
-            // Idk
+            // Dijkstra algorithm using priority queue in c#
+            
+            // Create a new priority queue
+            PriorityQueue<Vertex> priorityQueue = new PriorityQueue<Vertex>();
+            // Reset all the vertexes
+            ClearAll();
+            // Start vertex
+            Vertex start = GetVertex(name);
+            // Set the distance of the start vertex to 0
+            start.distance = 0;
+            // Add the starting vertex to the queue
+            priorityQueue.Add(start);
+            // The amount of nodes discovered
+            int nodesSeen = 0;
+            while (!priorityQueue.Size().Equals(0) && nodesSeen < vertexMap.Count) {
+                // Grab the next vertex
+                Vertex vertex = priorityQueue.Remove();
+                // If the vertex is already known skip it
+                if(vertex.known) continue;
+                // Change the current vertex to known
+                vertex.known = true;
+                // Increase the nodes seen
+                nodesSeen++;
+                // Go over all the edges connected to the vertex
+                foreach (Edge edge in vertex.GetAdjacents()) {
+                    // Grab the neighbor vertex
+                    Vertex neighbor = edge.dest;
+                    double cost = edge.cost;
+                    // Don't allow negative edges
+                    if (cost < 0) throw new Exception("Graph has negative edges");
+                    // If the current edge results in a cheaper path update the vertex
+                    if (neighbor.distance > vertex.distance + cost) {
+                        neighbor.distance = vertex.distance + cost;
+                        neighbor.prev = vertex;
+                        // Add the neighbor to the priority queue to calculate the rest of the possible paths
+                        priorityQueue.Add(neighbor);
+                    }
+                }
+            }
         }
 
         //----------------------------------------------------------------------
@@ -156,6 +197,5 @@ namespace AD
         {
             throw new System.NotImplementedException();
         }
-
     }
 }
