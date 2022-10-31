@@ -51,8 +51,6 @@ namespace AD
             ta.Merge("a", to, tp);
             tt.Merge("t", tw, ta);
 
-            var a = tt;
-
             return tt;
         }
     }
